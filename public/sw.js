@@ -5,8 +5,8 @@
 // strategy below; the browser only re-checks a service worker when its
 // own byte content changes, and activate() below clears stale caches once
 // it does.
-const CACHE_NAME = "paisacalc-v1";
-const OFFLINE_URL = "/offline.html";
+const CACHE_NAME = "paisacalc-v2";
+const OFFLINE_URL = "/offline/";
 
 // Just enough for the app to open at all on a completely fresh, fully
 // offline visit — everything else is cached as the user actually visits
