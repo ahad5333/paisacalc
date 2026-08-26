@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { Environment, Float } from "@react-three/drei";
+import { Float } from "@react-three/drei";
 
 const COLORS = ["#60A5FA", "#FB923C"] as const; // --figure, --deduction — no other data colours
 
@@ -48,7 +48,10 @@ export function FloatingField({ animate }: { animate: boolean }) {
 
   return (
     <>
-      <Environment preset="studio" environmentIntensity={0.6} />
+      {/* No <Environment> map here on purpose — the preset fetches an HDR
+          file from a third-party CDN at runtime, which the site's CSP
+          blocks and which is one more point of failure for a purely
+          decorative background. These three analytic lights are enough. */}
       <ambientLight intensity={0.5} />
       <directionalLight position={[6, 8, 6]} intensity={1.1} color="#EEF2FC" />
       <pointLight position={[-6, -4, -4]} intensity={0.4} color="#60A5FA" />
