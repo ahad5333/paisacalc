@@ -1,0 +1,17 @@
+"use client";
+
+import dynamic from "next/dynamic";
+
+// next/dynamic with ssr:false must be called from a Client Component —
+// see the same comment in EmiCalculatorLoader.tsx.
+export const FdCalculatorLoader = dynamic(
+  () => import("./FdCalculator").then((m) => m.FdCalculator),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="mx-auto w-full max-w-2xl px-4 py-10 sm:px-6">
+        <div className="h-64 w-full animate-pulse rounded-lg border border-rule bg-paper/90" />
+      </div>
+    ),
+  },
+);

@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #eef2fc; /* text, chart baseline */
+  --paper: #0b1730; /* page */
+  --rule: #1e2f52; /* hairlines, table borders */
+  --figure: #60a5fa; /* the result number, positive values */
+  --deduction: #fb923c; /* tax, interest, outflow */
+  --muted: #93a4c7; /* labels, assumptions, captions */
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-rule: var(--rule);
+  --color-figure: var(--figure);
+  --color-deduction: var(--deduction);
+  --color-muted: var(--muted);
+
+  --font-mono: var(--font-figures);
+  --font-serif: var(--font-body);
+  --font-sans: var(--font-labels);
+
+  --text-xs: 0.8125rem; /* 13px — captions */
+  --text-sm: 0.9375rem; /* 15px — labels */
+  --text-base: 1.0625rem; /* 17px — body */
+  --text-lg: 1.3125rem; /* 21px — subheads */
+  --text-xl: 1.75rem; /* 28px — section heads */
+  --text-2xl: 2.625rem; /* 42px — the result figure, only */
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-labels);
+}
+
+@keyframes digit-pop {
+  0% {
+    transform: translateY(-0.2em);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-digit-pop {
+  animation: digit-pop 180ms ease-out;
+}
+
+@keyframes hero-kenburns {
+  from {
+    transform: scale(1.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.animate-hero-kenburns {
+  animation: hero-kenburns 12s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

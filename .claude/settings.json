@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mv vitest.config.ts vitest.config.mts)",
+      "Bash(npm run *)",
+      "Bash(rm -v _screenshot-tmp.mjs)",
+      "Bash(npm uninstall *)",
+      "Bash(rm -rf .next out)",
+      "Bash(lsof -ti:3000 -sTCP:LISTEN)",
+      "Bash(xargs -r kill)",
+      "Bash(taskkill //F //IM chrome.exe)",
+      "Bash(cd \"c:/Users/ahad5/OneDrive/Desktop/paisacalc.in\" && sed -i 's/#FBFAF7/#FAF7F0/g' components/three/Scene.tsx && grep -n \"FAF7F0\\\\|FBFAF7\" components/three/Scene.tsx)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\ahad5\\OneDrive\\Desktop\\paisacalc.in\\components\\three"
+    ]
+  }
+}
