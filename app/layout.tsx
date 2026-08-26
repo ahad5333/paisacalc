@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { IBM_Plex_Mono, Source_Serif_4, Inter } from "next/font/google";
 import { SceneLayer } from "@/components/three/SceneLayer";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { Header } from "@/components/chrome/Header";
 import { Footer } from "@/components/chrome/Footer";
+import { ServiceWorkerRegistration } from "@/components/pwa/ServiceWorkerRegistration";
 import { CONTACT_EMAIL, SITE_LAUNCHED, SITE_URL } from "@/lib/site-config";
 import "./globals.css";
 
@@ -51,6 +52,10 @@ export const metadata: Metadata = {
     : { index: false, follow: false },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#0b1730",
+};
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -73,6 +78,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             strategy="afterInteractive"
           />
         )}
+        <ServiceWorkerRegistration />
         <SceneLayer />
         <SmoothScroll>
           <div className="relative flex min-h-full flex-1 flex-col">
