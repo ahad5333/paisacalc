@@ -5,7 +5,15 @@ import Link from "next/link";
 import { useLenis } from "lenis/react";
 import { Reveal } from "@/components/motion/Reveal";
 import { useReducedMotion } from "@/lib/use-reduced-motion";
+import { getFavorites } from "@/lib/favorites";
+import { getRecentlyViewed } from "@/lib/recently-viewed";
 import { CALCULATOR_CATEGORIES, CALCULATORS, categorySlug, type Calculator, type CalculatorCategory } from "@/lib/calculators";
+
+function resolve(hrefs: string[]): (typeof CALCULATORS)[number][] {
+  return hrefs
+    .map((href) => CALCULATORS.find((c) => c.href === href))
+    .filter((c): c is (typeof CALCULATORS)[number] => c !== undefined);
+}
 
 function matches(calc: Calculator, query: string): boolean {
   return calc.label.toLowerCase().includes(query) || calc.description.toLowerCase().includes(query);
@@ -73,9 +81,18 @@ function isTypingTarget(el: Element | null): boolean {
 // any distinguishing information and just took up space.
 export function CalculatorDirectory() {
   const [query, setQuery] = useState("");
+  const [favorites, setFavorites] = useState<(typeof CALCULATORS)[number][]>([]);
+  const [recent, setRecent] = useState<(typeof CALCULATORS)[number][]>([]);
   const searchRef = useRef<HTMLInputElement>(null);
   const lenis = useLenis();
   const reducedMotion = useReducedMotion();
+
+  // Both are per-browser (localStorage), read once after mount — nothing
+  // to show during server rendering since neither exists there.
+  useEffect(() => {
+    setFavorites(resolve(getFavorites()));
+    setRecent(resolve(getRecentlyViewed()));
+  }, []);
 
   // "/" focuses search from anywhere on the page, unless the user is
   // already typing into something else — the same convention GitHub and
@@ -102,9 +119,7 @@ export function CalculatorDirectory() {
 
   const totalMatches = grouped.reduce((sum, g) => sum + g.items.length, 0);
   const trimmedQuery = query.trim();
-  const popular = POPULAR_HREFS.map((href) => CALCULATORS.find((c) => c.href === href)).filter(
-    (c): c is (typeof CALCULATORS)[number] => c !== undefined,
-  );
+  const popular = resolve(POPULAR_HREFS);
   const newCount = useMemo(() => CALCULATORS.filter(isRecentlyAdded).length, []);
 
   function jumpToCategory(category: CalculatorCategory) {
@@ -126,6 +141,38 @@ export function CalculatorDirectory() {
             <span className="font-mono font-medium text-figure">{newCount}</span> calculators added in the
             latest batch — look for the <span className="rounded-full bg-figure/10 px-1.5 py-0.5 text-[0.6875rem] text-figure">New</span> tag below.
           </p>
+        )}
+
+        {favorites.length > 0 && (
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-mono text-[0.6875rem] uppercase tracking-wide text-muted">Favorites</span>
+            {favorites.slice(0, 10).map((calc) => (
+              <Link
+                key={calc.href}
+                href={calc.href}
+                prefetch={false}
+                className="rounded-full border border-rule bg-paper/90 px-3 py-1 text-xs text-ink transition-colors hover:border-figure hover:text-figure focus-visible:outline focus-visible:outline-2 focus-visible:outline-figure"
+              >
+                {calc.label}
+              </Link>
+            ))}
+          </div>
+        )}
+
+        {recent.length > 0 && (
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-mono text-[0.6875rem] uppercase tracking-wide text-muted">Recently viewed</span>
+            {recent.map((calc) => (
+              <Link
+                key={calc.href}
+                href={calc.href}
+                prefetch={false}
+                className="rounded-full border border-rule bg-paper/90 px-3 py-1 text-xs text-ink transition-colors hover:border-figure hover:text-figure focus-visible:outline focus-visible:outline-2 focus-visible:outline-figure"
+              >
+                {calc.label}
+              </Link>
+            ))}
+          </div>
         )}
 
         {popular.length > 0 && (

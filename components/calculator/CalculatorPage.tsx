@@ -1,12 +1,14 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Reveal } from "@/components/motion/Reveal";
 import { CALCULATORS, categorySlug } from "@/lib/calculators";
+import { recordView } from "@/lib/recently-viewed";
 import { AdSlot } from "./AdSlot";
+import { FavoriteButton } from "./FavoriteButton";
 import { ShareButton } from "./ShareButton";
 
 type CalculatorPageProps = {
@@ -60,6 +62,11 @@ export function CalculatorPage({
     const count = Math.min(4, categoryItems.length - 1);
     related = Array.from({ length: count }, (_, i) => categoryItems[(currentIndex + 1 + i) % categoryItems.length]);
   }
+
+  const currentHref = current?.href;
+  useEffect(() => {
+    if (currentHref) recordView(currentHref);
+  }, [currentHref]);
 
   return (
     <div className="flex w-full flex-col">
@@ -128,7 +135,10 @@ export function CalculatorPage({
           >
             <div className="flex items-start justify-between gap-4">
               <div className="min-w-0 flex-1">{result}</div>
-              <ShareButton />
+              <div className="flex shrink-0 gap-2">
+                {current && <FavoriteButton href={current.href} />}
+                <ShareButton />
+              </div>
             </div>
             {chart && <div className="mt-6">{chart}</div>}
           </section>
