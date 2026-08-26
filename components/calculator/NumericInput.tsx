@@ -3,6 +3,8 @@
 import { useId, useState } from "react";
 import { formatIndianNumber, toPlainDigits } from "@/lib/format";
 
+type Preset = { label: string; value: number };
+
 type NumericInputProps = {
   label: string;
   value: number;
@@ -13,6 +15,7 @@ type NumericInputProps = {
   suffix?: string;
   helpText?: string;
   slider?: boolean;
+  presets?: Preset[];
 };
 
 function clamp(value: number, min?: number, max?: number): number {
@@ -32,6 +35,7 @@ export function NumericInput({
   suffix,
   helpText,
   slider = false,
+  presets,
 }: NumericInputProps) {
   const inputId = useId();
   const helpId = useId();
@@ -108,6 +112,29 @@ export function NumericInput({
         />
         {suffix && <span className="text-sm text-muted">{suffix}</span>}
       </div>
+
+      {presets && presets.length > 0 && (
+        <div className="flex flex-wrap gap-1.5">
+          {presets.map((preset) => {
+            const active = value === preset.value;
+            return (
+              <button
+                key={preset.value}
+                type="button"
+                onClick={() => onChange(preset.value)}
+                aria-pressed={active}
+                className={`rounded-full border px-2.5 py-1 font-mono text-xs transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-figure ${
+                  active
+                    ? "border-figure bg-figure/10 text-figure"
+                    : "border-rule text-muted hover:border-figure hover:text-figure"
+                }`}
+              >
+                {preset.label}
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       {slider && min !== undefined && max !== undefined && (
         <div className="relative pt-5">

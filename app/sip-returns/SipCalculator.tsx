@@ -61,6 +61,13 @@ export function SipCalculator({ content }: { content: ReactNode }) {
             max={500000}
             step={500}
             slider
+            presets={[
+              { label: "₹1K", value: 1000 },
+              { label: "₹5K", value: 5000 },
+              { label: "₹10K", value: 10000 },
+              { label: "₹25K", value: 25000 },
+              { label: "₹50K", value: 50000 },
+            ]}
             helpText="How much you invest each month, at the start of the month."
           />
           <NumericInput

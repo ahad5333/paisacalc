@@ -73,6 +73,13 @@ export function IncomeTaxCalculator({ content }: { content: ReactNode }) {
             max={20000000}
             step={50000}
             slider
+            presets={[
+              { label: "₹5L", value: 500000 },
+              { label: "₹10L", value: 1000000 },
+              { label: "₹15L", value: 1500000 },
+              { label: "₹25L", value: 2500000 },
+              { label: "₹50L", value: 5000000 },
+            ]}
             helpText="Gross annual income before any deductions — salary, or total taxable income."
           />
           <div className="flex flex-col gap-1.5">

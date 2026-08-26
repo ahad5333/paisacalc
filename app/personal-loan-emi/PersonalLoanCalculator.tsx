@@ -57,6 +57,13 @@ export function PersonalLoanCalculator({ content }: { content: ReactNode }) {
             max={4000000}
             step={25000}
             slider
+            presets={[
+              { label: "₹1L", value: 100000 },
+              { label: "₹3L", value: 300000 },
+              { label: "₹5L", value: 500000 },
+              { label: "₹10L", value: 1000000 },
+              { label: "₹20L", value: 2000000 },
+            ]}
             helpText="The amount you're borrowing — personal loans are unsecured, so this is capped by your income and credit profile, not a collateral value."
           />
           <NumericInput

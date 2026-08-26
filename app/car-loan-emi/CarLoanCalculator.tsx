@@ -57,6 +57,13 @@ export function CarLoanCalculator({ content }: { content: ReactNode }) {
             max={3000000}
             step={25000}
             slider
+            presets={[
+              { label: "₹3L", value: 300000 },
+              { label: "₹5L", value: 500000 },
+              { label: "₹8L", value: 800000 },
+              { label: "₹12L", value: 1200000 },
+              { label: "₹20L", value: 2000000 },
+            ]}
             helpText="The on-road price of the car minus your down payment — the amount you're actually borrowing."
           />
           <NumericInput

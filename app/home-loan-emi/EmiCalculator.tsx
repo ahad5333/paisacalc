@@ -55,6 +55,13 @@ export function EmiCalculator({ content }: { content: ReactNode }) {
             max={50000000}
             step={100000}
             slider
+            presets={[
+              { label: "₹10L", value: 1000000 },
+              { label: "₹25L", value: 2500000 },
+              { label: "₹50L", value: 5000000 },
+              { label: "₹75L", value: 7500000 },
+              { label: "₹1Cr", value: 10000000 },
+            ]}
             helpText="The total amount you're borrowing from the lender."
           />
           <NumericInput
