@@ -15,6 +15,10 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      # Build first: it generates .next/types (the ambient LayoutProps<T>
+      # etc. declarations app/layout.tsx relies on), which a clean
+      # checkout doesn't have yet — running typecheck before a build has
+      # ever happened fails on a type that genuinely doesn't exist yet.
+      - run: npm run build
       - run: npm run typecheck
       - run: npm run test
-      - run: npm run build

@@ -1,15 +1,18 @@
 name: Post-deploy smoke test
 
-# Vercel's GitHub integration posts a deployment_status event once a
-# deploy finishes — this runs the smoke test against that exact
-# deployment's URL, not a guessed one, so it works for both production
-# and preview deploys.
+# Originally tried triggering on `deployment_status` (fires when Vercel's
+# integration reports a deploy finished) — that's the "correct" way to do
+# this, but it never actually fired in practice despite Vercel posting a
+# successful deployment_status via its GitHub App. Rather than debug
+# GitHub's event delivery further, this uses push (which this repo's CI
+# workflow already proves fires reliably) plus a wait for Vercel's build
+# to finish, and checks the known stable production URL directly.
 on:
-  deployment_status
+  push:
+    branches: [main]
 
 jobs:
   smoke-test:
-    if: github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,4 +22,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - run: npm run smoke-test -- "${{ github.event.deployment_status.target_url }}"
+      - name: Wait for Vercel deploy to finish
+        run: sleep 90
+      # Update this URL once paisacalc.in is connected as the production domain.
+      - run: npm run smoke-test -- "https://paisacalc-beta.vercel.app"
