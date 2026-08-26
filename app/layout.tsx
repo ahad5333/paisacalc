@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { IBM_Plex_Mono, Source_Serif_4, Inter } from "next/font/google";
-import { SceneLayer } from "@/components/three/SceneLayer";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { Header } from "@/components/chrome/Header";
 import { Footer } from "@/components/chrome/Footer";
@@ -79,7 +78,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           />
         )}
         <ServiceWorkerRegistration />
-        <SceneLayer />
         <SmoothScroll>
           <div className="relative flex min-h-full flex-1 flex-col">
             <Header />
